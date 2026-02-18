@@ -454,5 +454,15 @@
             </div>
         </div>
     </div>
+     <!-- ✅ SCRIPT PARA AUTORRELLENO DESDE URL -->
+    <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      params.forEach((value, key) => {
+        const el = document.querySelector(`[name="${key}"]`);
+        if (el) el.value = decodeURIComponent(value.replace(/\+/g, " "));
+      });
+    })();
+    </script>
 </body>
 </html>
