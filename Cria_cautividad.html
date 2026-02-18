@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha de Cría en Cautividad - CRF "La Granja"</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 8mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background: #e0e0e0;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .ficha-wrapper {
+            position: relative;
+        }
+        
+        .ficha-container {
+            width: 194mm;
+            min-height: 279mm;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            padding: 12mm 15mm;
+            position: relative;
+        }
+        
+        /* BOTÓN IMPRIMIR */
+        .btn-imprimir {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #7eb8da;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+            z-index: 1000;
+        }
+        
+        .btn-imprimir:hover {
+            background: #6aa8ca;
+        }
+        
+        /* ENCABEZADO */
+        .header-inst {
+            text-align: center;
+            font-size: 11.5px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        
+        .header-title {
+            text-align: center;
+            font-size: 20.5px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* SECCIONES */
+        .seccion-entrada {
+            margin-bottom: 15px;
+        }
+        
+        .fila-entrada {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .campo-recuadro {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .campo-label {
+            font-size: 12.5px;
+            font-weight: bold;
+            white-space: nowrap;
+            color: #000;
+        }
+        
+        /* RECUADRO N.º ENTRADA */
+        .input-recuadro {
+            border: 1.5px dashed #333;
+            border-radius: 3px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 14px;
+            padding: 10px 12px;
+            background: #fafafa;
+            outline: none;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .input-recuadro:focus {
+            background: #fff;
+            border: 1.5px dashed #666;
+        }
+        
+        .recuadro-entrada { 
+            width: 140px;
+            height: 45px;
+        }
+        
+        .campo-fecha {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .campo-input {
+            border: none;
+            border-bottom: 1px solid transparent;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12.5px;
+            padding: 4px 6px;
+            background: transparent;
+            outline: none;
+        }
+        
+        .campo-input:focus {
+            border-bottom: 1px solid #999;
+            background: rgba(255,255,200,0.2);
+        }
+        
+        .fila-localidad {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .fila-localidad .campo-input {
+            flex: 1;
+            margin-left: 8px;
+        }
+        
+        .titulo-seccion {
+            font-size: 13.5px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .recuadro-principal {
+            border: 1px solid #333;
+            padding: 12px 15px 15px 15px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        /* FILAS CON ESPECIE Y NOMBRE COMÚN MÁS ANCHOS */
+        .fila-2col {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px; /* MENOS GAP */
+            margin-bottom: 12px;
+        }
+        
+        .fila-2col:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* ESPECIE Y NOMBRE COMÚN - MUCHO MÁS ANCHOS */
+        .campo-especie,
+        .campo-nombre {
+            flex: 2.5; /* MÁS ANCHO (antes 1.8) */
+            min-width: 0; /* Permite encogerse si es necesario */
+        }
+        
+        .campo-especie .campo-input,
+        .campo-nombre .campo-input {
+            width: 100%; /* Ocupa todo el espacio disponible */
+        }
+        
+        /* CAUSA Y TIPO - MÁS ESTRECHOS */
+        .campo-causa,
+        .campo-tipo {
+            flex: 0.8; /* MÁS ESTRECHO */
+        }
+        
+        .fila-4col {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 12px;
+        }
+        
+        .fila-4col .campo {
+            flex: 1;
+        }
+        
+        .campo {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        
+        .recuadro-observaciones {
+            border: 1px solid #333;
+            padding: 12px 15px 15px 15px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .campo-textarea {
+            width: 100%;
+            min-height: 280px;
+            max-height: 350px;
+            border: none;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12.5px;
+            padding: 8px;
+            resize: vertical;
+            background: transparent;
+            outline: none;
+        }
+        
+        .campo-textarea:focus {
+            background: rgba(255,255,200,0.1);
+        }
+        
+        .recuadro-salida {
+            border: 1px solid #333;
+            padding: 12px 15px 15px 15px;
+            width: 100%;
+        }
+        
+        .grid-salida {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 40px;
+        }
+        
+        /* COLUMNA IZQUIERDA CON MÁS ESPACIO ENTRE CAMPOS */
+        .col-izq-salida {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        
+        .col-der-salida {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .campo-largo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .campo-largo .campo-input {
+            flex: 1;
+        }
+        
+        .recuadro-anilla { width: 110px; }
+        .recuadro-marcas { width: 130px; }
+        
+        .col-der-salida .input-recuadro {
+            width: 130px;
+            font-size: 12.5px;
+            padding: 8px 10px;
+        }
+        
+        .col-der-salida .campo-input {
+            width: 130px;
+            flex: none;
+        }
+        
+        #especie {
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .ficha-container {
+                box-shadow: none;
+                width: 194mm;
+                padding: 8mm 12mm;
+            }
+            
+            .recuadro-principal, .recuadro-observaciones, .recuadro-salida {
+                border: 1px solid #333 !important;
+            }
+            
+            .campo-input {
+                border-bottom: 0.5px solid #ddd;
+            }
+            
+            .input-recuadro {
+                border: 1.5px dashed #333 !important;
+                background: #fafafa !important;
+            }
+            
+            .campo-textarea {
+                border: none !important;
+            }
+            
+            .btn-imprimir {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="btn-imprimir" onclick="window.print()">🖨️ Imprimir</button>
+    
+    <div class="ficha-wrapper">
+        <div class="ficha-container">
+            <div class="header-inst">CRF "La Granja" de El Saler</div>
+            <div class="header-title">FICHA DE CRÍA EN CAUTIVIDAD</div>
+            
+            <div class="seccion-entrada">
+                <div class="fila-entrada">
+                    <div class="campo-recuadro">
+                        <span class="campo-label">N.º Entrada:</span>
+                        <input type="text" class="input-recuadro recuadro-entrada" name="num_entrada">
+                    </div>
+                    <div class="campo-fecha">
+                        <span class="campo-label">Fecha de Entrada:</span>
+                        <input type="text" class="campo-input" name="fecha_entrada" style="width: 120px;">
+                    </div>
+                </div>
+                
+                <div class="fila-localidad">
+                    <span class="campo-label">Localidad de procedencia:</span>
+                    <input type="text" class="campo-input" name="localidad">
+                </div>
+            </div>
+            
+            <span class="titulo-seccion">Datos del ejemplar</span>
+            
+            <div class="recuadro-principal">
+                <div class="fila-2col">
+                    <div class="campo campo-especie">
+                        <span class="campo-label">Especie:</span>
+                        <input type="text" class="campo-input" name="especie">
+                    </div>
+                    <div class="campo campo-causa">
+                        <span class="campo-label">Causa de entrada:</span>
+                        <input type="text" class="campo-input" name="causa_entrada">
+                    </div>
+                </div>
+                
+                <div class="fila-2col">
+                    <div class="campo campo-nombre">
+                        <span class="campo-label">Nombre común:</span>
+                        <input type="text" class="campo-input" name="nombre_comun">
+                    </div>
+                    <div class="campo campo-tipo">
+                        <span class="campo-label">Tipo de entrada:</span>
+                        <input type="text" class="campo-input" name="tipo_entrada">
+                    </div>
+                </div>
+                
+                <div class="fila-4col">
+                    <div class="campo">
+                        <span class="campo-label">Grupo:</span>
+                        <input type="text" class="campo-input" name="grupo" style="width: 50px;">
+                    </div>
+                    <div class="campo">
+                        <span class="campo-label">Peso:</span>
+                        <input type="text" class="campo-input" name="peso" style="width: 50px;">
+                    </div>
+                    <div class="campo">
+                        <span class="campo-label">Edad:</span>
+                        <input type="text" class="campo-input" name="edad" style="width: 50px;">
+                    </div>
+                    <div class="campo">
+                        <span class="campo-label">Sexo:</span>
+                        <input type="text" class="campo-input" name="sexo" style="width: 50px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recuadro-observaciones">
+                <span class="campo-label" style="display: block; margin-bottom: 10px;">Observaciones:</span>
+                <textarea class="campo-textarea" name="observaciones"></textarea>
+            </div>
+            
+            <div class="recuadro-salida">
+                <div class="grid-salida">
+                    <div class="col-izq-salida">
+                        <div class="campo-largo">
+                            <span class="campo-label">Tipo de salida:</span>
+                            <input type="text" class="campo-input" name="tipo_salida">
+                        </div>
+                        
+                        <div class="campo-largo">
+                            <span class="campo-label">Lugar de liberación:</span>
+                            <input type="text" class="campo-input" name="lugar_liberacion">
+                        </div>
+                        
+                        <div class="campo">
+                            <span class="campo-label">Fecha de liberación:</span>
+                            <input type="text" class="campo-input" name="fecha_liberacion" style="width: 100px;">
+                        </div>
+                        
+                        <div class="campo">
+                            <span class="campo-label">Fecha de muerte:</span>
+                            <input type="text" class="campo-input" name="fecha_muerte" style="width: 100px;">
+                        </div>
+                    </div>
+                    
+                    <div class="col-der-salida">
+                        <div class="campo-recuadro">
+                            <span class="campo-label">N.º Anilla:</span>
+                            <input type="text" class="input-recuadro recuadro-anilla" name="anilla">
+                        </div>
+                        
+                        <div class="campo-recuadro">
+                            <span class="campo-label">Otras Marcas:</span>
+                            <input type="text" class="input-recuadro recuadro-marcas" name="otras_marcas">
+                        </div>
+                        
+                        <div class="campo">
+                            <span class="campo-label">Día traslado:</span>
+                            <input type="text" class="campo-input" name="dia_traslado">
+                        </div>
+                        
+                        <div class="campo">
+                            <span class="campo-label">Lugar de traslado:</span>
+                            <input type="text" class="campo-input" name="lugar_traslado">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
