@@ -173,7 +173,7 @@
         .fila-2col {
             display: flex;
             justify-content: space-between;
-            gap: 15px; /* MENOS GAP */
+            gap: 15px;
             margin-bottom: 12px;
         }
         
@@ -184,19 +184,19 @@
         /* ESPECIE Y NOMBRE COMÚN - MUCHO MÁS ANCHOS */
         .campo-especie,
         .campo-nombre {
-            flex: 2.5; /* MÁS ANCHO (antes 1.8) */
-            min-width: 0; /* Permite encogerse si es necesario */
+            flex: 2.5;
+            min-width: 0;
         }
         
         .campo-especie .campo-input,
         .campo-nombre .campo-input {
-            width: 100%; /* Ocupa todo el espacio disponible */
+            width: 100%;
         }
         
         /* CAUSA Y TIPO - MÁS ESTRECHOS */
         .campo-causa,
         .campo-tipo {
-            flex: 0.8; /* MÁS ESTRECHO */
+            flex: 0.8;
         }
         
         .fila-4col {
@@ -289,11 +289,22 @@
             flex: none;
         }
         
-        #especie {
-            text-transform: uppercase;
-            font-weight: bold;
+        /* ✅ ESTILOS PARA CAMPOS DESTACADOS: SOLO EL VALOR RELLENO (no la etiqueta) */
+        #num_entrada {
+            font-size: 18px !important;
+            color: #0066cc !important;
+            font-weight: bold !important;
+            text-align: center;
         }
         
+        #especie {
+            font-size: 16px !important;
+            color: #0066cc !important;
+            font-weight: bold !important;
+            text-transform: uppercase;
+        }
+        
+        /* ✅ En impresión: mantener colores y contraste */
         @media print {
             body {
                 background: white;
@@ -326,6 +337,14 @@
             .btn-imprimir {
                 display: none !important;
             }
+            
+            /* ✅ Mantener azul en impresión */
+            #num_entrada,
+            #especie {
+                color: #0055aa !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
@@ -341,7 +360,8 @@
                 <div class="fila-entrada">
                     <div class="campo-recuadro">
                         <span class="campo-label">N.º Entrada:</span>
-                        <input type="text" class="input-recuadro recuadro-entrada" name="num_entrada">
+                        <!-- ✅ Añadido id="num_entrada" -->
+                        <input type="text" class="input-recuadro recuadro-entrada" name="num_entrada" id="num_entrada">
                     </div>
                     <div class="campo-fecha">
                         <span class="campo-label">Fecha de Entrada:</span>
@@ -361,7 +381,8 @@
                 <div class="fila-2col">
                     <div class="campo campo-especie">
                         <span class="campo-label">Especie:</span>
-                        <input type="text" class="campo-input" name="especie">
+                        <!-- ✅ Añadido id="especie" -->
+                        <input type="text" class="campo-input" name="especie" id="especie">
                     </div>
                     <div class="campo campo-causa">
                         <span class="campo-label">Causa de entrada:</span>
@@ -454,7 +475,8 @@
             </div>
         </div>
     </div>
-     <!-- ✅ SCRIPT PARA AUTORRELLENO DESDE URL -->
+    
+    <!-- ✅ SCRIPT PARA AUTORRELLENO DESDE URL -->
     <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
